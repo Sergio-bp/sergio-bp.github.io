@@ -1,0 +1,198 @@
+import React, { useState } from 'react';
+
+export default function Portfolio() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const projects = [
+
+  ];
+
+  const skills = [
+    { name: "React", level: 90, icon: "⚛️" },
+    { name: "JavaScript", level: 85, icon: "⚡" },
+    { name: "Tailwind CSS", level: 88, icon: "🎨" },
+    { name: "Node.js", level: 80, icon: "🟢" },
+    { name: "TypeScript", level: 75, icon: "📘" },
+    { name: "Git", level: 85, icon: "🔀" }
+  ];
+
+  return (
+<div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">  
+  \    {/* Navbar */}
+      <nav className="fixed w-full bg-slate-900/80 backdrop-blur-md z-50 shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="text-2xl font-bold text-white">
+              My portfolio
+            </div>
+            
+            {/* Desktop Menu */}
+            <div className="hidden md:flex space-x-8">
+              {['Inicio', 'Sobre mí', 'Proyectos', 'Habilidades', 'Contacto'].map((item) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase().replace(' ', '-')}`}
+                  className="text-gray-300 hover:text-purple-400 transition-colors duration-300"
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden text-gray-300 text-2xl"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? '✕' : '☰'}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-slate-800 border-t border-slate-700">
+            {['Inicio', 'Sobre mí', 'Proyectos', 'Habilidades', 'Contacto'].map((item) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase().replace(' ', '-')}`}
+                className="block px-4 py-3 text-gray-300 hover:bg-slate-700 hover:text-purple-400 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {item}
+              </a>
+            ))}
+          </div>
+        )}
+      </nav>
+
+      {/* Hero Section */}
+      <section id="inicio" className="pt-32 pb-20 px-4">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="mb-8">
+            <div className="w-32 h-32 mx-auto rounded-full bg-gradient-to-r from-white to-gray-500 p-1">
+              <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center text-6xl">
+                👨‍💻
+              </div>
+            </div>
+          </div>
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+            Hello, I'm Sergio Barrios Portales
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-300 mb-8">
+            Desarrollador Full Stack
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <a href="#contacto" className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105">
+              Contact
+            </a>
+            <a href="#proyectos" className="px-8 py-3 border-2 border-purple-500 text-purple-400 rounded-full font-semibold hover:bg-purple-500/10 transition-all duration-300">
+              See Proyects
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="sobre-mí" className="py-20 px-4 bg-slate-900/50">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-4xl font-bold text-white mb-12 text-center">About me</h2>
+          <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-slate-700">
+            <p className="text-gray-300 text-lg leading-relaxed mb-6">
+              Soy un desarrollador apasionado por crear soluciones digitales innovadoras y funcionales. Con experiencia en desarrollo web full stack, me especializo en crear aplicaciones modernas y escalables.
+            </p>
+            <p className="text-gray-300 text-lg leading-relaxed">
+              Mi enfoque está en escribir código limpio, eficiente y mantenible, siempre buscando las mejores prácticas y tecnologías emergentes para resolver problemas complejos de manera elegante.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Projects Section */}
+      <section id="proyectos" className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl font-bold text-white mb-12 text-center">Proyectos Destacados</h2>
+            <h3 className="text-4xl font-bold text-white mb-12 text-center">Comming soon</h3>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* {projects.map((project, idx) => (
+              <div key={idx} className="bg-slate-800/50 backdrop-blur-sm rounded-2xl overflow-hidden shadow-xl border border-slate-700 hover:border-purple-500 transition-all duration-300 transform hover:scale-105">
+                <img src={project.image} alt={project.title} className="w-full h-48 object-cover" />
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-white mb-3">{project.title}</h3>
+                  <p className="text-gray-400 mb-4">{project.description}</p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tech.map((tech, i) => (
+                      <span key={i} className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex gap-4">
+                    <button className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
+                      <span className="text-xl">💻</span> Código
+                    </button>
+                    <button className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
+                      <span className="text-xl">🔗</span> Demo
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))} */}
+          </div>
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <section id="habilidades" className="py-20 px-4 bg-slate-900/50">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-4xl font-bold text-white mb-12 text-center">Habilidades</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {skills.map((skill, idx) => (
+              <div key={idx} className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-2xl">{skill.icon}</span>
+                  <span className="text-white font-semibold">{skill.name}</span>
+                  <span className="ml-auto text-purple-400">{skill.level}%</span>
+                </div>
+                <div className="w-full bg-slate-700 rounded-full h-2">
+                  <div
+                    className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-1000"
+                    style={{ width: `${skill.level}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contacto" className="py-20 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl font-bold text-white mb-6">¿Hablamos?</h2>
+          <p className="text-gray-300 text-lg mb-12">
+            Estoy siempre abierto a nuevas oportunidades y colaboraciones
+          </p>
+          <div className="flex justify-center gap-6">
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="w-14 h-14 bg-slate-800 rounded-full flex items-center justify-center text-3xl hover:bg-purple-500 transition-all duration-300 transform hover:scale-110">
+              💻
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="w-14 h-14 bg-slate-800 rounded-full flex items-center justify-center text-3xl hover:bg-purple-500 transition-all duration-300 transform hover:scale-110">
+              💼
+            </a>
+            <a href="mailto:tu@email.com" className="w-14 h-14 bg-slate-800 rounded-full flex items-center justify-center text-3xl hover:bg-purple-500 transition-all duration-300 transform hover:scale-110">
+              📧
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-8 px-4 border-t border-slate-800">
+        <div className="max-w-7xl mx-auto text-center text-gray-400">
+          <p>&copy; 2024 Sergio Barrios Portales. Todos los derechos reservados.</p>
+        </div>
+      </footer>
+    </div>
+  );
+}
