@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { FaGithub,FaLinkedin} from "react-icons/fa";
+import { CgMail } from "react-icons/cg";
+import { SiC, SiDocker, SiKubernetes, SiTerraform, SiTypescript, SiGit,SiDart,SiPython } from "react-icons/si";
 
 export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -7,14 +10,17 @@ export default function Portfolio() {
 
   ];
 
-  const skills = [
-    { name: "React", level: 90, icon: "⚛️" },
-    { name: "JavaScript", level: 85, icon: "⚡" },
-    { name: "Tailwind CSS", level: 88, icon: "🎨" },
-    { name: "Node.js", level: 80, icon: "🟢" },
-    { name: "TypeScript", level: 75, icon: "📘" },
-    { name: "Git", level: 85, icon: "🔀" }
-  ];
+const skills = [
+  { name: "C", level: 90, icon: <SiC />, color: "#A8B9CC" },
+  { name: "Docker", level: 85, icon: <SiDocker />, color: "#2496ED" },
+  { name: "Kubernetes", level: 88, icon: <SiKubernetes />, color: "#326CE5" },
+  { name: "Terraform", level: 80, icon: <SiTerraform />, color: "#7B42BC" },
+  { name: "TypeScript", level: 75, icon: <SiTypescript />, color: "#3178C6" },
+  { name: "Git", level: 85, icon: <SiGit />, color: "#F05032" },
+  { name: "Dart", level: 85, icon: <SiDart />, color: "#0175C2" },
+  { name: "Python", level: 85, icon: <SiPython />, color: "#3776AB" }
+
+];
 
   return (
 <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">  
@@ -28,7 +34,7 @@ export default function Portfolio() {
             
             {/* Desktop Menu */}
             <div className="hidden md:flex space-x-8">
-              {['Inicio', 'Sobre mí', 'Proyectos', 'Habilidades', 'Contacto'].map((item) => (
+              {['Home', 'About Me', 'Projects', 'Skills', 'Contact'].map((item) => (
                 <a
                   key={item}
                   href={`#${item.toLowerCase().replace(' ', '-')}`}
@@ -52,7 +58,7 @@ export default function Portfolio() {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden bg-slate-800 border-t border-slate-700">
-            {['Inicio', 'Sobre mí', 'Proyectos', 'Habilidades', 'Contacto'].map((item) => (
+            {['Home', 'About Me', 'Projects', 'Skills', 'Contact'].map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase().replace(' ', '-')}`}
@@ -67,7 +73,7 @@ export default function Portfolio() {
       </nav>
 
       {/* Hero Section */}
-      <section id="inicio" className="pt-32 pb-20 px-4">
+      <section id="home" className="pt-32 pb-20 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <div className="mb-8">
             <div className="w-32 h-32 mx-auto rounded-full bg-gradient-to-r from-white to-gray-500 p-1">
@@ -80,13 +86,13 @@ export default function Portfolio() {
             Hello, I'm Sergio Barrios Portales
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-8">
-            Desarrollador Full Stack
+            Full Stack Developer
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <a href="#contacto" className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105">
+            <a href="#contact" className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105">
               Contact
             </a>
-            <a href="#proyectos" className="px-8 py-3 border-2 border-purple-500 text-purple-400 rounded-full font-semibold hover:bg-purple-500/10 transition-all duration-300">
+            <a href="#projects" className="px-8 py-3 border-2 border-purple-500 text-purple-400 rounded-full font-semibold hover:bg-purple-500/10 transition-all duration-300">
               See Proyects
             </a>
           </div>
@@ -94,24 +100,23 @@ export default function Portfolio() {
       </section>
 
       {/* About Section */}
-      <section id="sobre-mí" className="py-20 px-4 bg-slate-900/50">
+      <section id="about-me" className="py-20 px-4 bg-slate-900/50">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold text-white mb-12 text-center">About me</h2>
           <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-slate-700">
             <p className="text-gray-300 text-lg leading-relaxed mb-6">
-              Soy un desarrollador apasionado por crear soluciones digitales innovadoras y funcionales. Con experiencia en desarrollo web full stack, me especializo en crear aplicaciones modernas y escalables.
-            </p>
+              I'm a developer passionate about creating innovative and functional digital solutions. With experience in full-stack web development, I specialize in building modern and scalable applications.            </p>
             <p className="text-gray-300 text-lg leading-relaxed">
-              Mi enfoque está en escribir código limpio, eficiente y mantenible, siempre buscando las mejores prácticas y tecnologías emergentes para resolver problemas complejos de manera elegante.
+              My focus is on writing clean, efficient, and maintainable code, always seeking best practices and emerging technologies to solve complex problems elegantly.
             </p>
           </div>
         </div>
       </section>
 
       {/* Projects Section */}
-      <section id="proyectos" className="py-20 px-4">
+      <section id="projects" className="py-20 px-4">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-white mb-12 text-center">Proyectos Destacados</h2>
+          <h2 className="text-4xl font-bold text-white mb-12 text-center">Featured Projects</h2>
             <h3 className="text-4xl font-bold text-white mb-12 text-center">Comming soon</h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* {projects.map((project, idx) => (
@@ -143,21 +148,26 @@ export default function Portfolio() {
       </section>
 
       {/* Skills Section */}
-      <section id="habilidades" className="py-20 px-4 bg-slate-900/50">
+      <section id="skills" className="py-20 px-4 bg-slate-900/50">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold text-white mb-12 text-center">Habilidades</h2>
+          <h2 className="text-4xl font-bold text-white mb-12 text-center">Skills</h2>
           <div className="grid md:grid-cols-2 gap-6">
             {skills.map((skill, idx) => (
               <div key={idx} className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="text-2xl">{skill.icon}</span>
+                  <span className="text-2xl" style={{ color: skill.color }}>
+                    {skill.icon}
+                  </span>
                   <span className="text-white font-semibold">{skill.name}</span>
-                  <span className="ml-auto text-purple-400">{skill.level}%</span>
+                  <span className="ml-auto text-white">{skill.level}%</span>
                 </div>
                 <div className="w-full bg-slate-700 rounded-full h-2">
                   <div
-                    className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-1000"
-                    style={{ width: `${skill.level}%` }}
+                    className="h-2 rounded-full transition-all duration-1000"
+                    style={{ 
+                      width: `${skill.level}%`,
+                      backgroundColor: skill.color 
+                    }}
                   />
                 </div>
               </div>
@@ -167,21 +177,23 @@ export default function Portfolio() {
       </section>
 
       {/* Contact Section */}
-      <section id="contacto" className="py-20 px-4">
+      <section id="contact" className="py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">¿Hablamos?</h2>
-          <p className="text-gray-300 text-lg mb-12">
-            Estoy siempre abierto a nuevas oportunidades y colaboraciones
-          </p>
+         <h2 className="text-4xl font-bold text-white mb-6">Shall we talk?</h2>
+        <p className="text-gray-300 text-lg mb-12">
+          I'm always open to new opportunities and collaborations
+        </p>
+
           <div className="flex justify-center gap-6">
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="w-14 h-14 bg-slate-800 rounded-full flex items-center justify-center text-3xl hover:bg-purple-500 transition-all duration-300 transform hover:scale-110">
-              💻
+            <a href="https://github.com/Sergio-bp" target="_blank" rel="noopener noreferrer" className="w-14 h-14 bg-slate-800 rounded-full flex items-center justify-center text-3xl hover:bg-purple-500 transition-all duration-300 transform hover:scale-110">
+              <FaGithub className="text-white"/>
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="w-14 h-14 bg-slate-800 rounded-full flex items-center justify-center text-3xl hover:bg-purple-500 transition-all duration-300 transform hover:scale-110">
-              💼
+            <a href="http://linkedin.com/in/sergio-barrios-portales-454422289/" target="_blank" rel="noopener noreferrer" className="w-14 h-14 bg-slate-800 rounded-full flex items-center justify-center text-3xl hover:bg-purple-500 transition-all duration-300 transform hover:scale-110">
+              <FaLinkedin className="text-white"/>
             </a>
-            <a href="mailto:tu@email.com" className="w-14 h-14 bg-slate-800 rounded-full flex items-center justify-center text-3xl hover:bg-purple-500 transition-all duration-300 transform hover:scale-110">
-              📧
+            <a href="mailto:sergio.barpor@gmail.com" className="w-14 h-14 bg-slate-800 rounded-full flex items-center justify-center text-3xl hover:bg-purple-500 transition-all duration-300 transform hover:scale-110">
+              <CgMail className="text-white"/>
+        
             </a>
           </div>
         </div>
