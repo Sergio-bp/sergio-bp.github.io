@@ -24,7 +24,7 @@ const skills = [
 
   return (
 <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">  
-  \    {/* Navbar */}
+      {/* Navbar */}
       <nav className="fixed w-full bg-slate-900/80 backdrop-blur-md z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -93,7 +93,7 @@ const skills = [
               Contact
             </a>
             <a href="#projects" className="px-8 py-3 border-2 border-purple-500 text-purple-400 rounded-full font-semibold hover:bg-purple-500/10 transition-all duration-300">
-              See Proyects
+              See Projects
             </a>
           </div>
         </div>
@@ -117,7 +117,7 @@ const skills = [
       <section id="projects" className="py-20 px-4">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl font-bold text-white mb-12 text-center">Featured Projects</h2>
-            <h3 className="text-4xl font-bold text-white mb-12 text-center">Comming soon</h3>
+            <h3 className="text-4xl font-bold text-white mb-12 text-center">Coming soon</h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* {projects.map((project, idx) => (
               <div key={idx} className="bg-slate-800/50 backdrop-blur-sm rounded-2xl overflow-hidden shadow-xl border border-slate-700 hover:border-purple-500 transition-all duration-300 transform hover:scale-105">
@@ -202,7 +202,7 @@ const skills = [
       {/* Footer */}
       <footer className="py-8 px-4 border-t border-slate-800">
         <div className="max-w-7xl mx-auto text-center text-gray-400">
-          <p>&copy; 2024 Sergio Barrios Portales. Todos los derechos reservados.</p>
+          <p>&copy; 2024 Sergio Barrios Portales. All rights reserved.</p>
         </div>
       </footer>
     </div>
