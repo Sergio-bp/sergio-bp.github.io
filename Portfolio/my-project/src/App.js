@@ -6,9 +6,9 @@ import { SiC, SiDocker, SiKubernetes, SiTerraform, SiTypescript, SiGit,SiDart,Si
 export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const projects = [
+  // const projects = [
 
-  ];
+  // ];
 
 const skills = [
   { name: "C", level: 90, icon: <SiC />, color: "#A8B9CC" },
