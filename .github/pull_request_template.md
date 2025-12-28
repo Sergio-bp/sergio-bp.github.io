@@ -1,23 +1,40 @@
-THIS PROJECT IS IN MAINTENANCE MODE. We accept pull-requests for Bug Fixes **ONLY**. NO NEW FEATURES ACCEPTED!
+## 📋 Description
+Please provide a clear and concise description of the changes included in this pull request.
 
-<!--- Provide a general summary of your changes in the Title above -->
+## 🔗 Related Issue
+Link the related issue(s) if applicable:
+- Closes #
+- Related to #
 
-## Description
-<!--- Describe your changes in detail -->
+## ✅ Type of Change
+Please delete options that are not relevant.
 
-## Related Issue
-<!--- This project only accepts pull requests related to open issues -->
-<!--- If suggesting a new feature or change, please discuss it in an issue first -->
-<!--- If fixing a bug, there should be an issue describing it with steps to reproduce -->
-<!--- Please link to the issue here: -->
+- [ ] Bug fix (non-breaking change that fixes an issue)
+- [ ] New feature (non-breaking change that adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Refactor (no functional changes)
+- [ ] Documentation update
+- [ ] Other (please describe):
 
-## Motivation and Context
-<!--- Why is this change required? What problem does it solve? -->
-<!--- If it fixes an open issue, please link to the issue here. -->
+## 🧪 How Has This Been Tested?
+Describe the tests you ran to verify your changes.
+- [ ] Unit tests
+- [ ] Integration tests
+- [ ] Manual testing
 
-## How Has This Been Tested?
-<!--- Please describe in detail how you tested your changes. -->
-<!--- Include details of your testing environment, and the tests you ran to -->
-<!--- see how your change affects other areas of the code, etc. -->
+Provide details if necessary:
 
-## Screenshots (if appropriate):
+## 📸 Screenshots (if applicable)
+Add screenshots or recordings to help explain your changes.
+
+## 🚀 Checklist
+Please review and check the following before submitting:
+
+- [] My code follows the project’s coding standards
+- [ ] I have performed a self-review of my code
+- [ ] I have added tests that prove my changes work
+- [ ] New and existing tests pass locally
+- [ ] I have updated the documentation where necessary
+
+## 📝 Additional Notes
+Add any additional context or information for reviewers.
