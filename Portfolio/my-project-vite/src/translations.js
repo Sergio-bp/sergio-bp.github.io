@@ -2,7 +2,13 @@ export const translations = {
     en: {
         navbar: {
             title: "My portfolio",
-            links: ["Home", "About Me", "Projects", "Skills", "Contact"]
+            links: [
+                { id: "home", label: "Home" },
+                { id: "about-me", label: "About Me" },
+                { id: "projects", label: "Projects" },
+                { id: "skills", label: "Skills" },
+                { id: "contact", label: "Contact" }
+            ]
         },
         hero: {
             title: "Hello, I'm Sergio Barrios Portales",
@@ -37,7 +43,13 @@ export const translations = {
     es: {
         navbar: {
             title: "Mi portafolio",
-            links: ["Inicio", "Sobre Mí", "Proyectos", "Habilidades", "Contacto"]
+            links: [
+                { id: "home", label: "Inicio" },
+                { id: "about-me", label: "Sobre Mí" },
+                { id: "projects", label: "Proyectos" },
+                { id: "skills", label: "Habilidades" },
+                { id: "contact", label: "Contacto" }
+            ]
         },
         hero: {
             title: "Hola, soy Sergio Barrios Portales",
