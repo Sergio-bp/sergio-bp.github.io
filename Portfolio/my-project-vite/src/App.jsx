@@ -40,11 +40,11 @@ export default function Portfolio() {
             <div className="hidden md:flex space-x-8 items-center">
               {t.navbar.links.map((item) => (
                 <a
-                  key={item}
-                  href={`#${item.toLowerCase().replace(' ', '-')}`}
+                  key={item.id}
+                  href={`#${item.id}`}
                   className="text-gray-300 hover:text-purple-400 transition-colors duration-300"
                 >
-                  {item}
+                  {item.label}
                 </a>
               ))}
               <select
@@ -71,12 +71,12 @@ export default function Portfolio() {
           <div className="md:hidden bg-slate-800 border-t border-slate-700">
             {t.navbar.links.map((item) => (
               <a
-                key={item}
-                href={`#${item.toLowerCase().replace(' ', '-')}`}
+                key={item.id}
+                href={`#${item.id}`}
                 className="block px-4 py-3 text-gray-300 hover:bg-slate-700 hover:text-purple-400 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                {item}
+                {item.label}
               </a>
             ))}
             <div className="px-4 py-3">
@@ -170,33 +170,23 @@ export default function Portfolio() {
       </section >
 
       {/* Skills Section */}
-      < section id="skills" className="py-20 px-4 bg-slate-900/50" >
+      <section id="skills" className="py-20 px-4 bg-slate-900/50">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold text-white mb-12 text-center">{t.skills.title}</h2>
+          <h2 className="text-4xl font-bold text-white mb-12 text-center">Skills</h2>
           <div className="grid md:grid-cols-2 gap-6">
             {skills.map((skill, idx) => (
               <div key={idx} className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="text-2xl" style={{ color: skill.color }}>
+                <div className="flex items-center gap-3 justify-center">
+                  <span className="text-2xl" style={{ color: skill.color }} >
                     {skill.icon}
                   </span>
                   <span className="text-white font-semibold">{skill.name}</span>
-                  <span className="ml-auto text-white">{skill.level}%</span>
-                </div>
-                <div className="w-full bg-slate-700 rounded-full h-2">
-                  <div
-                    className="h-2 rounded-full transition-all duration-1000"
-                    style={{
-                      width: `${skill.level}%`,
-                      backgroundColor: skill.color
-                    }}
-                  />
                 </div>
               </div>
             ))}
           </div>
         </div>
-      </section >
+      </section>
 
       {/* Contact Section */}
       < section id="contact" className="py-20 px-4" >
