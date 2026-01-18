@@ -214,7 +214,7 @@ export default function Portfolio() {
       {/* Footer */}
       < footer className="py-8 px-4 border-t border-slate-800" >
         <div className="max-w-7xl mx-auto text-center text-gray-400">
-          <p>&copy; 2024 {t.footer.rights}</p>
+          <p>&copy; 2026 {t.footer.rights}</p>
         </div>
       </footer >
     </div >
