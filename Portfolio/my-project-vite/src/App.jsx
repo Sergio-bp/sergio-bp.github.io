@@ -6,22 +6,30 @@ import { useActiveSection, useLanguage, useReveal, useScrolled } from "./hooks";
 
 const SECTION_IDS = translations.en.navbar.links.map((l) => l.id);
 
-function LanguageSelect({ language, setLanguage, label, full = false, className = "" }) {
+function LanguageToggle({ language, setLanguage, label, className = "" }) {
+  const index = LANGUAGES.findIndex((lang) => lang.code === language);
+  const next = LANGUAGES[(index + 1) % LANGUAGES.length];
+
   return (
-    <label className={className}>
-      <span className="sr-only">{label}</span>
-      <select
-        value={language}
-        onChange={(e) => setLanguage(e.target.value)}
-        className="w-full cursor-pointer rounded-md border border-slate-700 bg-slate-800 px-2 py-1.5 text-sm text-white focus:border-purple-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/60"
-      >
-        {LANGUAGES.map((lang) => (
-          <option key={lang.code} value={lang.code}>
-            {full ? lang.label : lang.short}
-          </option>
-        ))}
-      </select>
-    </label>
+    <button
+      type="button"
+      onClick={() => setLanguage(next.code)}
+      aria-label={`${label}: ${next.label}`}
+      title={next.label}
+      className={`inline-flex cursor-pointer items-center rounded-full border border-slate-700 bg-slate-800/80 p-0.5 font-mono text-xs font-semibold transition-colors hover:border-purple-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/60 ${className}`}
+    >
+      {LANGUAGES.map((lang) => (
+        <span
+          key={lang.code}
+          aria-hidden="true"
+          className={`rounded-full px-2.5 py-1 transition-colors duration-300 ${
+            lang.code === language ? "bg-purple-500 text-white" : "text-gray-400"
+          }`}
+        >
+          {lang.short}
+        </span>
+      ))}
+    </button>
   );
 }
 
@@ -64,12 +72,14 @@ function Navbar({ t, language, setLanguage }) {
                 {item.label}
               </a>
             ))}
-            <LanguageSelect language={language} setLanguage={setLanguage} label={t.navbar.languageLabel} />
+            <LanguageToggle language={language} setLanguage={setLanguage} label={t.navbar.languageLabel} />
           </div>
 
+          <div className="flex items-center gap-2 md:hidden">
+          <LanguageToggle language={language} setLanguage={setLanguage} label={t.navbar.languageLabel} />
           <button
             type="button"
-            className="rounded-md p-2 text-2xl text-gray-300 hover:text-white focus-visible:ring-2 focus-visible:ring-purple-500/60 focus:outline-none md:hidden"
+            className="rounded-md p-2 text-2xl text-gray-300 hover:text-white focus-visible:ring-2 focus-visible:ring-purple-500/60 focus:outline-none"
             onClick={() => setIsMenuOpen((open) => !open)}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
@@ -77,6 +87,7 @@ function Navbar({ t, language, setLanguage }) {
           >
             <span aria-hidden="true">{isMenuOpen ? "✕" : "☰"}</span>
           </button>
+          </div>
         </div>
       </div>
 
@@ -92,9 +103,6 @@ function Navbar({ t, language, setLanguage }) {
               {item.label}
             </a>
           ))}
-          <div className="px-4 py-3">
-            <LanguageSelect language={language} setLanguage={setLanguage} label={t.navbar.languageLabel} full className="block" />
-          </div>
         </div>
       )}
     </nav>
