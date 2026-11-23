@@ -4,7 +4,8 @@ import { SiC, SiDocker, SiKubernetes, SiTerraform, SiTypescript, SiGit, SiDart, 
 
 export const GITHUB_USER = "Sergio-bp";
 export const GITHUB_URL = `https://github.com/${GITHUB_USER}`;
-export const AVATAR_URL = `https://github.com/${GITHUB_USER}.png?size=256`;
+// Self-hosted profile photo (320x320, shown at 80px), so the page makes no third-party requests
+export const AVATAR_URL = "/avatar.webp";
 
 export const skills = [
     { name: "C", color: "#00599C", Icon: SiC },
