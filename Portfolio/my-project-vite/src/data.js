@@ -7,20 +7,20 @@ export const GITHUB_URL = `https://github.com/${GITHUB_USER}`;
 export const AVATAR_URL = `https://github.com/${GITHUB_USER}.png?size=256`;
 
 export const skills = [
-    { name: "C", Icon: SiC, color: "#A8B9CC" },
-    { name: "Docker", Icon: SiDocker, color: "#2496ED" },
-    { name: "Kubernetes", Icon: SiKubernetes, color: "#326CE5" },
-    { name: "Terraform", Icon: SiTerraform, color: "#7B42BC" },
-    { name: "TypeScript", Icon: SiTypescript, color: "#3178C6" },
-    { name: "Git", Icon: SiGit, color: "#F05032" },
-    { name: "Dart", Icon: SiDart, color: "#0175C2" },
-    { name: "Python", Icon: SiPython, color: "#3776AB" }
+    { name: "C", Icon: SiC },
+    { name: "Docker", Icon: SiDocker },
+    { name: "Kubernetes", Icon: SiKubernetes },
+    { name: "Terraform", Icon: SiTerraform },
+    { name: "TypeScript", Icon: SiTypescript },
+    { name: "Git", Icon: SiGit },
+    { name: "Dart", Icon: SiDart },
+    { name: "Python", Icon: SiPython }
 ];
 
 export const socials = [
-    { name: "GitHub", href: GITHUB_URL, Icon: FaGithub },
-    { name: "LinkedIn", href: "https://www.linkedin.com/in/sergio-barrios-portales-454422289/", Icon: FaLinkedin },
-    { name: "Email", href: "mailto:sergio.barpor@gmail.com", Icon: CgMail }
+    { name: "GitHub", label: "github.com/Sergio-bp", href: GITHUB_URL, Icon: FaGithub },
+    { name: "LinkedIn", label: "in/sergio-barrios-portales", href: "https://www.linkedin.com/in/sergio-barrios-portales-454422289/", Icon: FaLinkedin },
+    { name: "Email", label: "sergio.barpor@gmail.com", href: "mailto:sergio.barpor@gmail.com", Icon: CgMail }
 ];
 
 /*

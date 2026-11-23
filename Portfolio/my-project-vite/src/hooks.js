@@ -54,30 +54,6 @@ export function useActiveSection(ids) {
     return active;
 }
 
-/** Adds `is-visible` to every `.reveal` element once it enters the viewport. */
-export function useReveal() {
-    useEffect(() => {
-        const elements = document.querySelectorAll(".reveal");
-        if (!("IntersectionObserver" in window)) {
-            elements.forEach((el) => el.classList.add("is-visible"));
-            return;
-        }
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("is-visible");
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            { threshold: 0.1 }
-        );
-        elements.forEach((el) => observer.observe(el));
-        return () => observer.disconnect();
-    }, []);
-}
-
 /** True once the page has been scrolled past `offset` pixels. */
 export function useScrolled(offset = 10) {
     const [scrolled, setScrolled] = useState(false);

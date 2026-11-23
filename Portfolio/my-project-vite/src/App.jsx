@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 import { translations, LANGUAGES } from "./translations";
 import { skills, socials, projects, GITHUB_URL, AVATAR_URL } from "./data";
-import { useActiveSection, useLanguage, useReveal, useScrolled } from "./hooks";
+import { useActiveSection, useLanguage, useScrolled } from "./hooks";
 
 const SECTION_IDS = translations.en.navbar.links.map((l) => l.id);
 
-function LanguageToggle({ language, setLanguage, label, className = "" }) {
+const focusRing = "focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black";
+
+function LanguageToggle({ language, setLanguage, label }) {
   const index = LANGUAGES.findIndex((lang) => lang.code === language);
   const next = LANGUAGES[(index + 1) % LANGUAGES.length];
 
@@ -16,14 +18,14 @@ function LanguageToggle({ language, setLanguage, label, className = "" }) {
       onClick={() => setLanguage(next.code)}
       aria-label={`${label}: ${next.label}`}
       title={next.label}
-      className={`inline-flex cursor-pointer items-center rounded-full border border-slate-700 bg-slate-800/80 p-0.5 font-mono text-xs font-semibold transition-colors hover:border-purple-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/60 ${className}`}
+      className={`inline-flex cursor-pointer items-center rounded-full border border-line p-0.5 text-xs font-semibold transition-colors hover:border-ash ${focusRing}`}
     >
       {LANGUAGES.map((lang) => (
         <span
           key={lang.code}
           aria-hidden="true"
           className={`rounded-full px-2.5 py-1 transition-colors duration-300 ${
-            lang.code === language ? "bg-purple-500 text-white" : "text-gray-400"
+            lang.code === language ? "bg-white text-black" : "text-ash"
           }`}
         >
           {lang.short}
@@ -45,28 +47,26 @@ function Navbar({ t, language, setLanguage }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [isMenuOpen]);
 
-  const linkClass = (id) =>
-    `transition-colors duration-300 ${active === id ? "text-purple-400" : "text-gray-300 hover:text-purple-400"}`;
+  const linkClass = (id) => `transition-colors duration-200 ${active === id ? "text-white" : "text-ash hover:text-white"}`;
 
   return (
     <nav
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled || isMenuOpen ? "bg-slate-900/85 shadow-lg backdrop-blur-md" : "bg-transparent"
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
+        scrolled || isMenuOpen ? "border-line bg-black/80 backdrop-blur-md" : "border-transparent bg-transparent"
       }`}
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          <a href="#home" className="text-xl font-bold tracking-tight text-white">
+          <a href="#home" className={`rounded text-lg font-semibold tracking-tight text-white ${focusRing}`}>
             {t.navbar.title}
-            <span className="text-purple-400">.</span>
           </a>
 
-          <div className="hidden items-center gap-8 md:flex">
+          <div className="hidden items-center gap-8 text-sm md:flex">
             {t.navbar.links.map((item) => (
               <a
                 key={item.id}
                 href={`#${item.id}`}
-                className={linkClass(item.id)}
+                className={`rounded ${linkClass(item.id)} ${focusRing}`}
                 aria-current={active === item.id ? "true" : undefined}
               >
                 {item.label}
@@ -76,28 +76,28 @@ function Navbar({ t, language, setLanguage }) {
           </div>
 
           <div className="flex items-center gap-2 md:hidden">
-          <LanguageToggle language={language} setLanguage={setLanguage} label={t.navbar.languageLabel} />
-          <button
-            type="button"
-            className="rounded-md p-2 text-2xl text-gray-300 hover:text-white focus-visible:ring-2 focus-visible:ring-purple-500/60 focus:outline-none"
-            onClick={() => setIsMenuOpen((open) => !open)}
-            aria-expanded={isMenuOpen}
-            aria-controls="mobile-menu"
-            aria-label={isMenuOpen ? t.navbar.closeMenu : t.navbar.openMenu}
-          >
-            <span aria-hidden="true">{isMenuOpen ? "✕" : "☰"}</span>
-          </button>
+            <LanguageToggle language={language} setLanguage={setLanguage} label={t.navbar.languageLabel} />
+            <button
+              type="button"
+              className={`rounded-md p-2 text-2xl text-fog hover:text-white ${focusRing}`}
+              onClick={() => setIsMenuOpen((open) => !open)}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
+              aria-label={isMenuOpen ? t.navbar.closeMenu : t.navbar.openMenu}
+            >
+              <span aria-hidden="true">{isMenuOpen ? "✕" : "☰"}</span>
+            </button>
           </div>
         </div>
       </div>
 
       {isMenuOpen && (
-        <div id="mobile-menu" className="border-t border-slate-700 bg-slate-800 md:hidden">
+        <div id="mobile-menu" className="border-t border-line bg-black md:hidden">
           {t.navbar.links.map((item) => (
             <a
               key={item.id}
               href={`#${item.id}`}
-              className={`block px-4 py-3 hover:bg-slate-700 ${linkClass(item.id)}`}
+              className={`block border-b border-line px-4 py-4 text-lg last:border-b-0 ${linkClass(item.id)}`}
               onClick={() => setIsMenuOpen(false)}
             >
               {item.label}
@@ -112,32 +112,35 @@ function Navbar({ t, language, setLanguage }) {
 function Avatar({ alt }) {
   const [failed, setFailed] = useState(false);
 
+  if (failed) {
+    return (
+      <div className="flex h-20 w-20 items-center justify-center rounded-full border border-line bg-graphite text-2xl font-semibold text-white" role="img" aria-label={alt}>
+        SB
+      </div>
+    );
+  }
+
   return (
-    <div className="mx-auto h-32 w-32 rounded-full bg-linear-to-r from-purple-500 to-pink-500 p-1 shadow-lg shadow-purple-500/20">
-      {failed ? (
-        <div className="flex h-full w-full items-center justify-center rounded-full bg-slate-900 text-4xl font-bold text-white" role="img" aria-label={alt}>
-          SB
-        </div>
-      ) : (
-        <img
-          src={AVATAR_URL}
-          alt={alt}
-          width="128"
-          height="128"
-          className="h-full w-full rounded-full bg-slate-900 object-cover"
-          onError={() => setFailed(true)}
-        />
-      )}
-    </div>
+    <img
+      src={AVATAR_URL}
+      alt={alt}
+      width="80"
+      height="80"
+      className="h-20 w-20 rounded-full border border-line object-cover grayscale"
+      onError={() => setFailed(true)}
+    />
   );
 }
 
-function SectionTitle({ children }) {
+/** Two-column section: title on the left, content on the right. */
+function Section({ id, title, children }) {
   return (
-    <h2 className="mb-12 text-center text-3xl font-bold text-white md:text-4xl">
-      {children}
-      <span className="mx-auto mt-4 block h-1 w-16 rounded-full bg-linear-to-r from-purple-500 to-pink-500" />
-    </h2>
+    <section id={id} className="border-t border-line px-4 py-20 sm:px-6 md:py-28 lg:px-8">
+      <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[1fr_2fr] md:gap-16">
+        <h2 className="text-2xl font-semibold tracking-tight text-white md:sticky md:top-28 md:self-start md:text-3xl">{title}</h2>
+        <div>{children}</div>
+      </div>
+    </section>
   );
 }
 
@@ -145,30 +148,22 @@ function ProjectCard({ project, t, language }) {
   const description = typeof project.description === "string" ? project.description : project.description?.[language];
 
   return (
-    <article className="overflow-hidden rounded-2xl border border-slate-700 bg-slate-800/50 shadow-xl backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-purple-500">
-      {project.image && <img src={project.image} alt="" loading="lazy" className="h-48 w-full object-cover" />}
-      <div className="p-6">
-        <h3 className="mb-3 text-xl font-bold text-white">{project.title}</h3>
-        {description && <p className="mb-4 text-gray-400">{description}</p>}
-        <ul className="mb-4 flex flex-wrap gap-2">
-          {project.tech?.map((tech) => (
-            <li key={tech} className="rounded-full bg-purple-500/20 px-3 py-1 text-sm text-purple-300">
-              {tech}
-            </li>
-          ))}
-        </ul>
-        <div className="flex gap-4">
-          {project.code && (
-            <a href={project.code} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-purple-400 transition-colors hover:text-purple-300">
-              <FaGithub aria-hidden="true" /> {t.projects.buttons.code}
-            </a>
-          )}
-          {project.demo && (
-            <a href={project.demo} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-purple-400 transition-colors hover:text-purple-300">
-              <FaExternalLinkAlt aria-hidden="true" /> {t.projects.buttons.demo}
-            </a>
-          )}
-        </div>
+    <article className="border-b border-line py-8 first:pt-0 last:border-b-0">
+      {project.image && <img src={project.image} alt="" loading="lazy" className="mb-6 aspect-video w-full rounded-lg border border-line object-cover grayscale transition duration-500 hover:grayscale-0" />}
+      <h3 className="mb-2 text-xl font-semibold text-white">{project.title}</h3>
+      {description && <p className="mb-4 max-w-prose text-fog">{description}</p>}
+      {project.tech?.length > 0 && <p className="mb-4 text-sm text-ash">{project.tech.join(", ")}</p>}
+      <div className="flex gap-6 text-sm">
+        {project.code && (
+          <a href={project.code} target="_blank" rel="noopener noreferrer" className={`flex items-center gap-2 rounded text-white underline-offset-4 hover:underline ${focusRing}`}>
+            <FaGithub aria-hidden="true" /> {t.projects.buttons.code}
+          </a>
+        )}
+        {project.demo && (
+          <a href={project.demo} target="_blank" rel="noopener noreferrer" className={`flex items-center gap-2 rounded text-white underline-offset-4 hover:underline ${focusRing}`}>
+            <FaExternalLinkAlt aria-hidden="true" /> {t.projects.buttons.demo}
+          </a>
+        )}
       </div>
     </article>
   );
@@ -177,133 +172,115 @@ function ProjectCard({ project, t, language }) {
 export default function Portfolio() {
   const [language, setLanguage] = useLanguage();
   const t = translations[language];
-  useReveal();
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-linear-to-br from-gray-950 via-gray-900 to-black">
-      {/* Decorative background glow */}
-      <div aria-hidden="true" className="pointer-events-none absolute -top-40 left-1/2 h-[480px] w-[720px] max-w-[150vw] -translate-x-1/2 rounded-full bg-purple-600/20 blur-3xl" />
-
-      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-purple-600 focus:px-4 focus:py-2 focus:text-white">
+    <div className="min-h-screen bg-black text-fog">
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-black">
         {t.skipLink}
       </a>
 
       <Navbar t={t} language={language} setLanguage={setLanguage} />
 
-      <main id="main" className="relative">
+      <main id="main">
         {/* Hero */}
-        <section id="home" className="flex min-h-[90vh] items-center px-4 pb-20 pt-32">
-          <div className="mx-auto max-w-7xl text-center">
-            <div className="mb-8">
+        <section id="home" className="flex min-h-[92vh] items-end px-4 pb-20 pt-32 sm:px-6 md:pb-28 lg:px-8">
+          <div className="mx-auto w-full max-w-6xl">
+            <div className="hero-in" style={{ "--d": "0ms" }}>
               <Avatar alt={t.hero.avatarAlt} />
             </div>
-            <p className="mb-3 font-mono text-purple-400">{t.hero.greeting}</p>
-            <h1 className="mb-6 text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-7xl">
-              <span className="bg-linear-to-r from-white via-gray-200 to-purple-300 bg-clip-text text-transparent">{t.hero.name}</span>
+            <p className="hero-in mt-8 text-lg text-ash md:text-xl" style={{ "--d": "80ms" }}>
+              {t.hero.greeting}
+            </p>
+            <h1
+              className="hero-in mt-2 text-[clamp(3rem,11vw,9.5rem)] font-semibold leading-[0.92] tracking-[-0.045em] text-white"
+              style={{ "--d": "160ms" }}
+            >
+              {t.hero.name}
             </h1>
-            <p className="mb-10 text-xl text-gray-300 md:text-2xl">{t.hero.role}</p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <a
-                href="#contact"
-                className="rounded-full bg-linear-to-r from-purple-500 to-pink-500 px-8 py-3 font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/50 focus-visible:ring-2 focus-visible:ring-purple-300 focus:outline-none"
-              >
-                {t.hero.ctaMain}
-              </a>
-              <a
-                href="#projects"
-                className="rounded-full border-2 border-purple-500 px-8 py-3 font-semibold text-purple-300 transition-all duration-300 hover:bg-purple-500/10 focus-visible:ring-2 focus-visible:ring-purple-300 focus:outline-none"
-              >
-                {t.hero.ctaSecondary}
-              </a>
-            </div>
-          </div>
-        </section>
-
-        {/* About */}
-        <section id="about-me" className="bg-slate-900/50 px-4 py-20">
-          <div className="reveal mx-auto max-w-4xl">
-            <SectionTitle>{t.about.title}</SectionTitle>
-            <div className="rounded-2xl border border-slate-700 bg-slate-800/50 p-8 shadow-xl backdrop-blur-sm">
-              <p className="mb-6 text-lg leading-relaxed text-gray-300">{t.about.p1}</p>
-              <p className="text-lg leading-relaxed text-gray-300">{t.about.p2}</p>
-            </div>
-          </div>
-        </section>
-
-        {/* Projects */}
-        <section id="projects" className="px-4 py-20">
-          <div className="reveal mx-auto max-w-7xl">
-            <SectionTitle>{t.projects.title}</SectionTitle>
-            {projects.length > 0 ? (
-              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {projects.map((project) => (
-                  <ProjectCard key={project.title} project={project} t={t} language={language} />
-                ))}
-              </div>
-            ) : (
-              <div className="mx-auto max-w-xl rounded-2xl border border-dashed border-slate-600 bg-slate-800/30 p-10 text-center">
-                <h3 className="mb-3 text-2xl font-bold text-white">{t.projects.comingSoon}</h3>
-                <p className="mb-6 text-gray-400">{t.projects.comingSoonText}</p>
+            <div className="hero-in mt-10 flex flex-col gap-8 md:flex-row md:items-center md:justify-between" style={{ "--d": "260ms" }}>
+              <p className="text-xl text-fog md:text-2xl">{t.hero.role}</p>
+              <div className="flex flex-wrap gap-3">
                 <a
-                  href={GITHUB_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-slate-700 px-6 py-2.5 font-semibold text-white transition-colors hover:bg-purple-500"
+                  href="#contact"
+                  className={`rounded-full bg-white px-7 py-3 font-semibold text-black transition-colors hover:bg-fog ${focusRing}`}
                 >
-                  <FaGithub aria-hidden="true" /> {t.projects.githubCta}
+                  {t.hero.ctaMain}
+                </a>
+                <a
+                  href="#projects"
+                  className={`rounded-full border border-line px-7 py-3 font-semibold text-white transition-colors hover:border-white ${focusRing}`}
+                >
+                  {t.hero.ctaSecondary}
                 </a>
               </div>
-            )}
+            </div>
           </div>
         </section>
 
-        {/* Skills */}
-        <section id="skills" className="bg-slate-900/50 px-4 py-20">
-          <div className="reveal mx-auto max-w-4xl">
-            <SectionTitle>{t.skills.title}</SectionTitle>
-            <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-              {skills.map(({ name, Icon, color }) => (
-                <li
-                  key={name}
-                  className="group flex flex-col items-center gap-3 rounded-xl border border-slate-700 bg-slate-800/50 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-slate-500"
-                >
-                  <Icon aria-hidden="true" className="text-4xl transition-transform duration-300 group-hover:scale-110" style={{ color }} />
-                  <span className="font-semibold text-white">{name}</span>
+        <Section id="about-me" title={t.about.title}>
+          <div className="max-w-prose space-y-6 text-lg leading-relaxed md:text-xl">
+            <p className="text-white">{t.about.p1}</p>
+            <p>{t.about.p2}</p>
+          </div>
+        </Section>
+
+        <Section id="projects" title={t.projects.title}>
+          {projects.length > 0 ? (
+            projects.map((project) => <ProjectCard key={project.title} project={project} t={t} language={language} />)
+          ) : (
+            <div className="max-w-prose">
+              <h3 className="mb-3 text-xl font-semibold text-white">{t.projects.comingSoon}</h3>
+              <p className="mb-8 text-lg text-fog">{t.projects.comingSoonText}</p>
+              <a
+                href={GITHUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`inline-flex items-center gap-2 rounded-full border border-line px-6 py-2.5 font-semibold text-white transition-colors hover:border-white ${focusRing}`}
+              >
+                <FaGithub aria-hidden="true" /> {t.projects.githubCta}
+              </a>
+            </div>
+          )}
+        </Section>
+
+        <Section id="skills" title={t.skills.title}>
+          <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-4">
+            {skills.map(({ name, Icon }) => (
+              <li key={name} className="group flex flex-col items-start gap-6 bg-black p-5 transition-colors duration-300 hover:bg-graphite">
+                <Icon aria-hidden="true" className="text-3xl text-ash transition-colors duration-300 group-hover:text-white" />
+                <span className="font-medium text-white">{name}</span>
+              </li>
+            ))}
+          </ul>
+        </Section>
+
+        <Section id="contact" title={t.contact.title}>
+          <p className="mb-10 max-w-prose text-lg text-fog md:text-xl">{t.contact.subtitle}</p>
+          <ul className="border-t border-line">
+            {socials.map(({ name, href, label, Icon }) => {
+              const external = href.startsWith("http");
+              return (
+                <li key={name} className="border-b border-line">
+                  <a
+                    href={href}
+                    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    className={`group flex items-center justify-between gap-4 py-5 ${focusRing}`}
+                  >
+                    <span className="flex items-center gap-4 text-xl font-medium text-white md:text-2xl">
+                      <Icon aria-hidden="true" className="text-2xl text-ash transition-colors group-hover:text-white" />
+                      {name}
+                    </span>
+                    <span className="truncate text-sm text-ash transition-colors group-hover:text-white">{label}</span>
+                  </a>
                 </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        {/* Contact */}
-        <section id="contact" className="px-4 py-20">
-          <div className="reveal mx-auto max-w-4xl text-center">
-            <SectionTitle>{t.contact.title}</SectionTitle>
-            <p className="-mt-4 mb-12 text-lg text-gray-300">{t.contact.subtitle}</p>
-            <ul className="flex justify-center gap-6">
-              {socials.map(({ name, href, Icon }) => {
-                const external = href.startsWith("http");
-                return (
-                  <li key={name}>
-                    <a
-                      href={href}
-                      aria-label={name}
-                      title={name}
-                      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                      className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-800 text-3xl text-white transition-all duration-300 hover:scale-110 hover:bg-purple-500 focus-visible:ring-2 focus-visible:ring-purple-300 focus:outline-none"
-                    >
-                      <Icon aria-hidden="true" />
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </section>
+              );
+            })}
+          </ul>
+        </Section>
       </main>
 
-      <footer className="relative border-t border-slate-800 px-4 py-8">
-        <div className="mx-auto max-w-7xl text-center text-sm text-gray-400">
+      <footer className="border-t border-line px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl text-sm text-ash">
           <p>
             &copy; {new Date().getFullYear()} {t.footer.rights}
           </p>
