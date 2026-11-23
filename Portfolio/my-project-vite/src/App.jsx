@@ -1,222 +1,305 @@
-import React, { useState } from 'react';
-import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { CgMail } from "react-icons/cg";
-import { SiC, SiDocker, SiKubernetes, SiTerraform, SiTypescript, SiGit, SiDart, SiPython } from "react-icons/si";
-import { translations } from './translations';
+import { useEffect, useState } from "react";
+import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
+import { translations, LANGUAGES } from "./translations";
+import { skills, socials, projects, GITHUB_URL, AVATAR_URL } from "./data";
+import { useActiveSection, useLanguage, useScrolled } from "./hooks";
 
-export default function Portfolio() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [language, setLanguage] = useState('en');
+const SECTION_IDS = translations.en.navbar.links.map((l) => l.id);
 
-  const t = translations[language];
+const focusRing = "focus:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-page";
 
-  // const projects = [
-
-  // ];
-
-  const skills = [
-    { name: "C", level: 90, icon: <SiC />, color: "#A8B9CC" },
-    { name: "Docker", level: 85, icon: <SiDocker />, color: "#2496ED" },
-    { name: "Kubernetes", level: 88, icon: <SiKubernetes />, color: "#326CE5" },
-    { name: "Terraform", level: 80, icon: <SiTerraform />, color: "#7B42BC" },
-    { name: "TypeScript", level: 75, icon: <SiTypescript />, color: "#3178C6" },
-    { name: "Git", level: 85, icon: <SiGit />, color: "#F05032" },
-    { name: "Dart", level: 85, icon: <SiDart />, color: "#0175C2" },
-    { name: "Python", level: 85, icon: <SiPython />, color: "#3776AB" }
-
-  ];
+function LanguageToggle({ language, setLanguage, label }) {
+  const index = LANGUAGES.findIndex((lang) => lang.code === language);
+  const next = LANGUAGES[(index + 1) % LANGUAGES.length];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
-      {/* Navbar */}
-      <nav className="fixed w-full bg-slate-900/80 backdrop-blur-md z-50 shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="text-2xl font-bold text-white">
-              {t.navbar.title}
-            </div>
+    <button
+      type="button"
+      onClick={() => setLanguage(next.code)}
+      aria-label={`${label}: ${next.label}`}
+      title={next.label}
+      className={`inline-flex cursor-pointer items-center rounded-full border border-line p-0.5 text-xs font-semibold transition-colors hover:border-muted ${focusRing}`}
+    >
+      {LANGUAGES.map((lang) => (
+        <span
+          key={lang.code}
+          aria-hidden="true"
+          className={`rounded-full px-2.5 py-1 transition-colors duration-300 ${
+            lang.code === language ? "bg-ink text-page" : "text-muted"
+          }`}
+        >
+          {lang.short}
+        </span>
+      ))}
+    </button>
+  );
+}
 
-            {/* Desktop Menu */}
-            <div className="hidden md:flex space-x-8 items-center">
-              {t.navbar.links.map((item) => (
-                <a
-                  key={item.id}
-                  href={`#${item.id}`}
-                  className="text-gray-300 hover:text-purple-400 transition-colors duration-300"
-                >
-                  {item.label}
-                </a>
-              ))}
-              <select
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-                className="bg-slate-800 text-white border border-slate-700 rounded px-2 py-1 focus:outline-none focus:border-purple-500"
-              >
-                <option value="en">🇺🇸 EN</option>
-                <option value="es">🇪🇸 ES</option>
-              </select>
-            </div>
+function Navbar({ t, language, setLanguage }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const active = useActiveSection(SECTION_IDS);
+  const scrolled = useScrolled();
 
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden text-gray-300 text-2xl"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? '✕' : '☰'}
-            </button>
-          </div>
-        </div>
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const onKey = (e) => e.key === "Escape" && setIsMenuOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isMenuOpen]);
 
-        {isMenuOpen && (
-          <div className="md:hidden bg-slate-800 border-t border-slate-700">
+  const linkClass = (id) => `transition-colors duration-200 ${active === id ? "text-ink" : "text-muted hover:text-ink"}`;
+
+  return (
+    <nav
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
+        scrolled || isMenuOpen ? "border-line bg-page/85 backdrop-blur-md" : "border-transparent bg-transparent"
+      }`}
+    >
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
+          <a href="#home" className={`rounded text-lg font-semibold tracking-tight text-ink ${focusRing}`}>
+            {t.navbar.title}
+          </a>
+
+          <div className="hidden items-center gap-8 text-sm md:flex">
             {t.navbar.links.map((item) => (
               <a
                 key={item.id}
                 href={`#${item.id}`}
-                className="block px-4 py-3 text-gray-300 hover:bg-slate-700 hover:text-purple-400 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
+                className={`rounded ${linkClass(item.id)} ${focusRing}`}
+                aria-current={active === item.id ? "true" : undefined}
               >
                 {item.label}
               </a>
             ))}
-            <div className="px-4 py-3">
-              <select
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-                className="w-full bg-slate-700 text-white border border-slate-600 rounded px-2 py-2 focus:outline-none focus:border-purple-500"
-              >
-                <option value="en">🇺🇸 English</option>
-                <option value="es">🇪🇸 Español</option>
-              </select>
-            </div>
+            <LanguageToggle language={language} setLanguage={setLanguage} label={t.navbar.languageLabel} />
           </div>
+
+          <div className="flex items-center gap-2 md:hidden">
+            <LanguageToggle language={language} setLanguage={setLanguage} label={t.navbar.languageLabel} />
+            <button
+              type="button"
+              className={`rounded-md p-2 text-2xl text-body hover:text-ink ${focusRing}`}
+              onClick={() => setIsMenuOpen((open) => !open)}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
+              aria-label={isMenuOpen ? t.navbar.closeMenu : t.navbar.openMenu}
+            >
+              <span aria-hidden="true">{isMenuOpen ? "✕" : "☰"}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {isMenuOpen && (
+        <div id="mobile-menu" className="border-t border-line bg-page md:hidden">
+          {t.navbar.links.map((item) => (
+            <a
+              key={item.id}
+              href={`#${item.id}`}
+              className={`block border-b border-line px-4 py-4 text-lg last:border-b-0 ${linkClass(item.id)}`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      )}
+    </nav>
+  );
+}
+
+function Avatar({ alt }) {
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    return (
+      <div className="flex h-20 w-20 items-center justify-center rounded-full border border-line bg-surface text-2xl font-semibold text-ink" role="img" aria-label={alt}>
+        SB
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={AVATAR_URL}
+      alt={alt}
+      width="80"
+      height="80"
+      className="h-20 w-20 rounded-full border border-line object-cover"
+      onError={() => setFailed(true)}
+    />
+  );
+}
+
+/** Two-column section: title on the left, content on the right. */
+function Section({ id, title, alt = false, children }) {
+  return (
+    <section id={id} className={`border-t border-line px-4 py-20 sm:px-6 md:py-28 lg:px-8 ${alt ? "bg-surface" : ""}`}>
+      <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[1fr_2fr] md:gap-16">
+        <h2 className="text-2xl font-semibold tracking-tight text-ink md:sticky md:top-28 md:self-start md:text-3xl">{title}</h2>
+        <div>{children}</div>
+      </div>
+    </section>
+  );
+}
+
+function ProjectCard({ project, t, language }) {
+  const description = typeof project.description === "string" ? project.description : project.description?.[language];
+
+  return (
+    <article className="border-b border-line py-8 first:pt-0 last:border-b-0">
+      {project.image && <img src={project.image} alt="" loading="lazy" className="mb-6 aspect-video w-full rounded-lg border border-line object-cover grayscale transition duration-500 hover:grayscale-0" />}
+      <h3 className="mb-2 text-xl font-semibold text-ink">{project.title}</h3>
+      {description && <p className="mb-4 max-w-prose text-body">{description}</p>}
+      {project.tech?.length > 0 && <p className="mb-4 text-sm text-muted">{project.tech.join(", ")}</p>}
+      <div className="flex gap-6 text-sm">
+        {project.code && (
+          <a href={project.code} target="_blank" rel="noopener noreferrer" className={`flex items-center gap-2 rounded text-ink underline-offset-4 hover:underline ${focusRing}`}>
+            <FaGithub aria-hidden="true" /> {t.projects.buttons.code}
+          </a>
         )}
-      </nav >
+        {project.demo && (
+          <a href={project.demo} target="_blank" rel="noopener noreferrer" className={`flex items-center gap-2 rounded text-ink underline-offset-4 hover:underline ${focusRing}`}>
+            <FaExternalLinkAlt aria-hidden="true" /> {t.projects.buttons.demo}
+          </a>
+        )}
+      </div>
+    </article>
+  );
+}
 
-      {/* Hero Section */}
-      < section id="home" className="pt-32 pb-20 px-4" >
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="mb-8">
-            <div className="w-32 h-32 mx-auto rounded-full bg-gradient-to-r from-white to-gray-500 p-1">
-              <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center text-6xl">
-                👨‍💻
+export default function Portfolio() {
+  const [language, setLanguage] = useLanguage();
+  const t = translations[language];
+
+  return (
+    <div className="min-h-screen bg-page text-body">
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-ink focus:px-4 focus:py-2 focus:text-page">
+        {t.skipLink}
+      </a>
+
+      <Navbar t={t} language={language} setLanguage={setLanguage} />
+
+      <main id="main">
+        {/* Hero */}
+        <section id="home" className="flex min-h-[92vh] items-end px-4 pb-20 pt-32 sm:px-6 md:pb-28 lg:px-8">
+          <div className="mx-auto w-full max-w-6xl">
+            <div className="hero-in" style={{ "--d": "0ms" }}>
+              <Avatar alt={t.hero.avatarAlt} />
+            </div>
+            <a
+              href="#contact"
+              className={`hero-in mt-8 inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-1.5 text-sm font-medium text-ink transition-colors hover:border-ink ${focusRing}`}
+              style={{ "--d": "40ms" }}
+            >
+              <span className="relative flex h-2 w-2" aria-hidden="true">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60 motion-safe:animate-ping" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+              </span>
+              {t.hero.status}
+            </a>
+            <p className="hero-in mt-6 text-lg text-muted md:text-xl" style={{ "--d": "80ms" }}>
+              {t.hero.greeting}
+            </p>
+            <h1
+              className="hero-in mt-2 text-[clamp(3rem,11vw,9.5rem)] font-semibold leading-[0.92] tracking-[-0.045em] text-ink"
+              style={{ "--d": "160ms" }}
+            >
+              {t.hero.name}
+            </h1>
+            <div className="hero-in mt-10 flex flex-col gap-8 md:flex-row md:items-center md:justify-between" style={{ "--d": "260ms" }}>
+              <p className="text-xl text-body md:text-2xl">{t.hero.role}</p>
+              <div className="flex flex-wrap gap-3">
+                <a
+                  href="#contact"
+                  className={`rounded-full bg-ink px-7 py-3 font-semibold text-page transition-colors hover:bg-body ${focusRing}`}
+                >
+                  {t.hero.ctaMain}
+                </a>
+                <a
+                  href="#projects"
+                  className={`rounded-full border border-line px-7 py-3 font-semibold text-ink transition-colors hover:border-ink ${focusRing}`}
+                >
+                  {t.hero.ctaSecondary}
+                </a>
               </div>
             </div>
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-            {t.hero.title}
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-300 mb-8">
-            {t.hero.role}
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <a href="#contact" className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105">
-              {t.hero.ctaMain}
-            </a>
-            <a href="#projects" className="px-8 py-3 border-2 border-purple-500 text-purple-400 rounded-full font-semibold hover:bg-purple-500/10 transition-all duration-300">
-              {t.hero.ctaSecondary}
-            </a>
-          </div>
-        </div>
-      </section >
+        </section>
 
-      {/* About Section */}
-      < section id="about-me" className="py-20 px-4 bg-slate-900/50" >
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold text-white mb-12 text-center">{t.about.title}</h2>
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-slate-700">
-            <p className="text-gray-300 text-lg leading-relaxed mb-6">
-              {t.about.p1}
-            </p>
-            <p className="text-gray-300 text-lg leading-relaxed">
-              {t.about.p2}
-            </p>
-          </div>
-        </div>
-      </section >
-
-      {/* Projects Section */}
-      < section id="projects" className="py-20 px-4" >
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-white mb-12 text-center">{t.projects.title}</h2>
-          <h3 className="text-4xl font-bold text-white mb-12 text-center">{t.projects.comingSoon}</h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* {projects.map((project, idx) => (
-              <div key={idx} className="bg-slate-800/50 backdrop-blur-sm rounded-2xl overflow-hidden shadow-xl border border-slate-700 hover:border-purple-500 transition-all duration-300 transform hover:scale-105">
-                <img src={project.image} alt={project.title} className="w-full h-48 object-cover" />
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-3">{project.title}</h3>
-                  <p className="text-gray-400 mb-4">{project.description}</p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tech.map((tech, i) => (
-                      <span key={i} className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="flex gap-4">
-                    <button className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
-                      <span className="text-xl">💻</span> Código
-                    </button>
-                    <button className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
-                      <span className="text-xl">🔗</span> Demo
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))} */}
-          </div>
-        </div>
-      </section >
-
-      {/* Skills Section */}
-      <section id="skills" className="py-20 px-4 bg-slate-900/50">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold text-white mb-12 text-center">Skills</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            {skills.map((skill, idx) => (
-              <div key={idx} className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
-                <div className="flex items-center gap-3 justify-center">
-                  <span className="text-2xl" style={{ color: skill.color }} >
-                    {skill.icon}
-                  </span>
-                  <span className="text-white font-semibold">{skill.name}</span>
-                </div>
-              </div>
+        <Section id="about-me" title={t.about.title} alt>
+          <div className="max-w-prose space-y-6 text-lg leading-relaxed md:text-xl">
+            {t.about.paragraphs.map((text, i) => (
+              <p key={i} className={i === 0 ? "text-ink" : undefined}>
+                {text}
+              </p>
             ))}
           </div>
-        </div>
-      </section>
+        </Section>
 
-      {/* Contact Section */}
-      < section id="contact" className="py-20 px-4" >
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">{t.contact.title}</h2>
-          <p className="text-gray-300 text-lg mb-12">
-            {t.contact.subtitle}
+        <Section id="projects" title={t.projects.title}>
+          {projects.length > 0 ? (
+            projects.map((project) => <ProjectCard key={project.title} project={project} t={t} language={language} />)
+          ) : (
+            <div className="max-w-prose">
+              <h3 className="mb-3 text-xl font-semibold text-ink">{t.projects.comingSoon}</h3>
+              <p className="mb-8 text-lg text-body">{t.projects.comingSoonText}</p>
+              <a
+                href={GITHUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`inline-flex items-center gap-2 rounded-full border border-line px-6 py-2.5 font-semibold text-ink transition-colors hover:border-ink ${focusRing}`}
+              >
+                <FaGithub aria-hidden="true" /> {t.projects.githubCta}
+              </a>
+            </div>
+          )}
+        </Section>
+
+        <Section id="skills" title={t.skills.title} alt>
+          <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-4">
+            {skills.map(({ name, Icon, color }) => (
+              <li key={name} className="group flex flex-col items-start gap-6 bg-surface p-5 transition-colors duration-300 hover:bg-page">
+                <Icon aria-hidden="true" className="text-3xl transition-transform duration-300 group-hover:scale-110" style={{ color }} />
+                <span className="font-medium text-ink">{name}</span>
+              </li>
+            ))}
+          </ul>
+        </Section>
+
+        <Section id="contact" title={t.contact.title}>
+          <p className="mb-10 max-w-prose text-lg text-body md:text-xl">{t.contact.subtitle}</p>
+          <ul className="border-t border-line">
+            {socials.map(({ name, href, label, Icon, color }) => {
+              const external = href.startsWith("http");
+              return (
+                <li key={name} className="border-b border-line">
+                  <a
+                    href={href}
+                    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    className={`group flex items-center justify-between gap-4 py-5 ${focusRing}`}
+                  >
+                    <span className="flex items-center gap-4 text-xl font-medium text-ink md:text-2xl">
+                      <Icon aria-hidden="true" className="text-2xl" style={{ color }} />
+                      {name}
+                    </span>
+                    <span className="truncate text-sm text-muted transition-colors group-hover:text-ink">{label}</span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </Section>
+      </main>
+
+      <footer className="border-t border-line px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl text-sm text-muted">
+          <p>
+            &copy; {new Date().getFullYear()} {t.footer.rights}
           </p>
-
-          <div className="flex justify-center gap-6">
-            <a href="https://github.com/Sergio-bp" target="_blank" rel="noopener noreferrer" className="w-14 h-14 bg-slate-800 rounded-full flex items-center justify-center text-3xl hover:bg-purple-500 transition-all duration-300 transform hover:scale-110">
-              <FaGithub className="text-white" />
-            </a>
-            <a href="http://linkedin.com/in/sergio-barrios-portales-454422289/" target="_blank" rel="noopener noreferrer" className="w-14 h-14 bg-slate-800 rounded-full flex items-center justify-center text-3xl hover:bg-purple-500 transition-all duration-300 transform hover:scale-110">
-              <FaLinkedin className="text-white" />
-            </a>
-            <a href="mailto:sergio.barpor@gmail.com" className="w-14 h-14 bg-slate-800 rounded-full flex items-center justify-center text-3xl hover:bg-purple-500 transition-all duration-300 transform hover:scale-110">
-              <CgMail className="text-white" />
-
-            </a>
-          </div>
         </div>
-      </section >
-
-      {/* Footer */}
-      < footer className="py-8 px-4 border-t border-slate-800" >
-        <div className="max-w-7xl mx-auto text-center text-gray-400">
-          <p>&copy; 2026 {t.footer.rights}</p>
-        </div>
-      </footer >
-    </div >
+      </footer>
+    </div>
   );
 }
