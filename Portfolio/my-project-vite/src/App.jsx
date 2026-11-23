@@ -188,7 +188,18 @@ export default function Portfolio() {
             <div className="hero-in" style={{ "--d": "0ms" }}>
               <Avatar alt={t.hero.avatarAlt} />
             </div>
-            <p className="hero-in mt-8 text-lg text-muted md:text-xl" style={{ "--d": "80ms" }}>
+            <a
+              href="#contact"
+              className={`hero-in mt-8 inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-1.5 text-sm font-medium text-ink transition-colors hover:border-ink ${focusRing}`}
+              style={{ "--d": "40ms" }}
+            >
+              <span className="relative flex h-2 w-2" aria-hidden="true">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60 motion-safe:animate-ping" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+              </span>
+              {t.hero.status}
+            </a>
+            <p className="hero-in mt-6 text-lg text-muted md:text-xl" style={{ "--d": "80ms" }}>
               {t.hero.greeting}
             </p>
             <h1

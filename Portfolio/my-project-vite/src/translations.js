@@ -25,6 +25,7 @@ export const translations = {
             ]
         },
         hero: {
+            status: "Open to new job opportunities",
             greeting: "Hello, I'm",
             name: "Sergio Barrios Portales",
             role: "DevOps Developer",
@@ -55,7 +56,7 @@ export const translations = {
         },
         contact: {
             title: "Shall we talk?",
-            subtitle: "I'm always open to new opportunities and collaborations"
+            subtitle: "I'm currently looking for a new job as a DevOps developer. If you have a position that fits, or just want to talk, write to me."
         },
         footer: {
             rights: "Sergio Barrios Portales. All rights reserved."
@@ -80,6 +81,7 @@ export const translations = {
             ]
         },
         hero: {
+            status: "Buscando nuevas oportunidades laborales",
             greeting: "Hola, soy",
             name: "Sergio Barrios Portales",
             role: "Desarrollador DevOps",
@@ -110,7 +112,7 @@ export const translations = {
         },
         contact: {
             title: "¿Hablamos?",
-            subtitle: "Siempre estoy abierto a nuevas oportunidades y colaboraciones"
+            subtitle: "Ahora mismo estoy buscando trabajo como desarrollador DevOps. Si tienes un puesto que encaje, o simplemente quieres hablar, escríbeme."
         },
         footer: {
             rights: "Sergio Barrios Portales. Todos los derechos reservados."
