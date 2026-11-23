@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--
+  Source of public/og-image.png, the preview shown when the site is shared (LinkedIn, WhatsApp...).
+  Regenerate it from Portfolio/my-project-vite with:
+
+    google-chrome --headless=new --user-data-dir="$(mktemp -d)" --hide-scrollbars \
+      --force-device-scale-factor=1 --window-size=1200,630 --virtual-time-budget=3000 \
+      --screenshot=public/og-image.png "file://$PWD/scripts/og-image.html"
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    @font-face {
+      font-family: "Geist";
+      font-weight: 100 900;
+      font-display: block;
+      src: url("../public/fonts/geist-latin-wght-normal.woff2") format("woff2-variations");
+    }
+
+    * { margin: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+      background: #f3f3f3;
+      color: #171717;
+      font-family: "Geist", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    main {
+      height: 100%;
+      padding: 80px 88px 72px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    h1 {
+      font-size: 124px;
+      font-weight: 600;
+      line-height: 0.92;
+      letter-spacing: -0.045em;
+    }
+
+    .role {
+      margin-top: 36px;
+      font-size: 46px;
+      font-weight: 400;
+      color: #404040;
+    }
+
+    footer {
+      margin-top: 56px;
+      padding-top: 24px;
+      border-top: 2px solid #dcdcdc;
+      font-size: 28px;
+      color: #6b6b6b;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Sergio Barrios<br />Portales</h1>
+    <p class="role">DevOps Developer</p>
+    <footer>sergio-bp.github.io</footer>
+  </main>
+</body>
+</html>
