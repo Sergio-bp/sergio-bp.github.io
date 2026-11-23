@@ -1,7 +1,21 @@
+export const LANGUAGES = [
+    { code: "en", short: "EN", label: "English" },
+    { code: "es", short: "ES", label: "Español" }
+];
+
+export const DEFAULT_LANGUAGE = "en";
+
 export const translations = {
     en: {
+        skipLink: "Skip to content",
+        meta: {
+            description: "Portfolio of Sergio Barrios Portales, software developer focused on backend, DevOps and infrastructure."
+        },
         navbar: {
-            title: "My portfolio",
+            title: "Sergio BP",
+            languageLabel: "Language",
+            openMenu: "Open menu",
+            closeMenu: "Close menu",
             links: [
                 { id: "home", label: "Home" },
                 { id: "about-me", label: "About Me" },
@@ -11,10 +25,12 @@ export const translations = {
             ]
         },
         hero: {
-            title: "Hello, I'm Sergio Barrios Portales",
+            greeting: "Hello, I'm",
+            name: "Sergio Barrios Portales",
             role: "Full Stack Developer",
             ctaMain: "Contact",
-            ctaSecondary: "See Projects"
+            ctaSecondary: "See Projects",
+            avatarAlt: "Profile picture of Sergio Barrios Portales"
         },
         about: {
             title: "About me",
@@ -24,6 +40,8 @@ export const translations = {
         projects: {
             title: "Featured Projects",
             comingSoon: "Coming soon",
+            comingSoonText: "I'm preparing a selection of projects to show here. Meanwhile, you can browse my repositories on GitHub.",
+            githubCta: "View my GitHub",
             buttons: {
                 code: "Code",
                 demo: "Demo"
@@ -41,8 +59,15 @@ export const translations = {
         }
     },
     es: {
+        skipLink: "Saltar al contenido",
+        meta: {
+            description: "Portafolio de Sergio Barrios Portales, desarrollador de software centrado en backend, DevOps e infraestructura."
+        },
         navbar: {
-            title: "Mi portafolio",
+            title: "Sergio BP",
+            languageLabel: "Idioma",
+            openMenu: "Abrir menú",
+            closeMenu: "Cerrar menú",
             links: [
                 { id: "home", label: "Inicio" },
                 { id: "about-me", label: "Sobre Mí" },
@@ -52,10 +77,12 @@ export const translations = {
             ]
         },
         hero: {
-            title: "Hola, soy Sergio Barrios Portales",
+            greeting: "Hola, soy",
+            name: "Sergio Barrios Portales",
             role: "Desarrollador Full Stack",
             ctaMain: "Contactar",
-            ctaSecondary: "Ver Proyectos"
+            ctaSecondary: "Ver Proyectos",
+            avatarAlt: "Foto de perfil de Sergio Barrios Portales"
         },
         about: {
             title: "Sobre mí",
@@ -65,6 +92,8 @@ export const translations = {
         projects: {
             title: "Proyectos Destacados",
             comingSoon: "Próximamente",
+            comingSoonText: "Estoy preparando una selección de proyectos para mostrar aquí. Mientras tanto, puedes ver mis repositorios en GitHub.",
+            githubCta: "Ver mi GitHub",
             buttons: {
                 code: "Código",
                 demo: "Demo"
