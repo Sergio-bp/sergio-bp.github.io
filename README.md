@@ -1,52 +1,74 @@
 # 👋 Hi, I'm Sergio
 
-Software Developer with a strong focus on **backend development** and a growing passion for **DevOps and infrastructure**. I enjoy building systems where clean architecture, performance, and automation play an important role.
+DevOps Developer at **AIR Institute**. I come from backend development and now focus on getting software from the repository to production reliably: containers, orchestration, infrastructure as code and CI/CD.
 
-This repository contains my personal portfolio, where I showcase selected projects, technologies, and tools I work with.
+This repository contains my personal portfolio: **[sergio-bp.github.io](https://sergio-bp.github.io)**
 
 ---
 
 ## 👨‍💻 About Me
 
-I have experience developing backend services, APIs, and full-stack applications, as well as working with containerized environments and deployment workflows. I’m especially interested in understanding how software behaves beyond code — from local development to production.
-
-I enjoy:
-- Designing backend architectures and APIs
-- Working with containers and automation
-- Learning and applying DevOps practices
-- Building maintainable and scalable systems
+- DevOps Developer at AIR Institute
+- Degree in Computer Engineering in Information Systems, University of Salamanca (Zamora campus)
+- Day to day: Docker, Kubernetes, Terraform and CI/CD pipelines
 
 ---
 
 ## 🛠️ Tech Stack
 
-This portfolio is built with a modern frontend stack:
-
-- **React** and **Vite** for a fast and maintainable frontend
-- **Tailwind CSS** for responsive and consistent UI design
-- **React Icons** for visual clarity
-- **GitHub Pages** for simple and reliable deployment
-
-Beyond this project, I regularly work with:
-- Backend technologies and APIs
-- Docker and containerized environments
-- CI/CD pipelines and deployment workflows
+- **React 19** and **Vite 7**
+- **Tailwind CSS 4**, with the colour palette defined as theme tokens in `src/index.css`
+- **Geist** font, self-hosted (the site makes no requests to font providers)
+- **React Icons**
+- **GitHub Actions** and **GitHub Pages** for CI/CD
 
 ---
 
 ## ✨ Highlights
 
-- Responsive and accessible design
-- Internationalization (English / Spanish)
-- Clean and minimal UI
-- Performance-oriented setup
-- Automated deployment with GitHub Actions
+- **Prerendered at build time:** the HTML already contains the whole page, so it shows up without JavaScript and to crawlers; React then hydrates it
+- **English / Spanish** with a toggle; the browser language is used until the visitor picks one, and Spanish visitors never see the English HTML first
+- **Light monochrome design**, responsive down to mobile
+- **Accessible:** skip link, labelled controls, visible keyboard focus, reduced-motion support
+- **SEO:** meta description, 1200×630 Open Graph image, schema.org `Person` data
 
 ---
 
-## 🌍 Deployment
+## 📁 Project Structure
 
-Deployed on **GitHub Pages** using **GitHub Actions**.
+The app lives in `Portfolio/my-project-vite`:
+
+| Path | Contents |
+| --- | --- |
+| `src/translations.js` | All texts, in English and Spanish |
+| `src/data.js` | Skills, contact links and projects |
+| `src/App.jsx` | Page layout and sections |
+| `src/index.css` | Font, colour tokens and global styles |
+| `src/entry-server.js`, `scripts/prerender.js` | Build-time prerendering |
+| `scripts/og-image.html` | Source of the social preview image (`public/og-image.png`) |
+
+To show a project, add it to `projects` in `src/data.js`: the Projects section renders it automatically.
+
+---
+
+## 🚀 Local Development
+
+```bash
+cd Portfolio/my-project-vite
+npm ci
+npm run dev       # dev server with hot reload
+npm run lint
+npm run build     # production build, prerendered into dist/
+npm run preview   # serve dist/ locally
+```
+
+---
+
+## 🌍 CI/CD
+
+- **CI** (`.github/workflows/ci.yml`): lint and build on every push and pull request to `main` and `develop`
+- **Deploy** (`.github/workflows/deploy.yml`): every push to `main` builds the site and publishes it to GitHub Pages
+- **Branch flow:** `feature/*` → `develop` → `main`
 
 ---
 
@@ -55,4 +77,3 @@ Deployed on **GitHub Pages** using **GitHub Actions**.
 - [GitHub](https://github.com/Sergio-bp)
 - [LinkedIn](https://www.linkedin.com/in/sergio-barrios-portales-454422289/)
 - [Email](mailto:sergio.barpor@gmail.com?subject=Contacto&body=Hola%20Sergio)
-
