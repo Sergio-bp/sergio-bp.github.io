@@ -1,33 +1,31 @@
-import { useEffect, useState } from "react";
-import { DEFAULT_LANGUAGE, translations } from "./translations";
+import { useCallback, useEffect, useState } from "react";
+import { translations } from "./translations";
+import { STORAGE_KEY } from "./language";
 
-const STORAGE_KEY = "portfolio-language";
-
-function getInitialLanguage() {
-    try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved && translations[saved]) return saved;
-    } catch {
-        // storage unavailable (private mode, blocked cookies...)
-    }
-    const browser = (navigator.language || "").slice(0, 2).toLowerCase();
-    return translations[browser] ? browser : DEFAULT_LANGUAGE;
-}
-
-/** Language state persisted in localStorage, synced with <html lang> and meta description. */
-export function useLanguage() {
-    const [language, setLanguage] = useState(getInitialLanguage);
+/**
+ * Current language, synced with <html lang> and the meta description.
+ * Only an explicit choice is stored, so until then the browser language keeps deciding.
+ */
+export function useLanguage(initialLanguage) {
+    const [language, setLanguageState] = useState(initialLanguage);
 
     useEffect(() => {
-        try {
-            localStorage.setItem(STORAGE_KEY, language);
-        } catch {
-            // ignore
-        }
-        document.documentElement.lang = language;
+        const root = document.documentElement;
+        root.lang = language;
+        // Set by index.html's boot script while the page waits to be rendered in this language.
+        root.classList.remove("i18n-pending");
         const meta = document.querySelector('meta[name="description"]');
         if (meta) meta.setAttribute("content", translations[language].meta.description);
     }, [language]);
+
+    const setLanguage = useCallback((next) => {
+        setLanguageState(next);
+        try {
+            localStorage.setItem(STORAGE_KEY, next);
+        } catch {
+            // storage unavailable (private mode, blocked cookies...)
+        }
+    }, []);
 
     return [language, setLanguage];
 }

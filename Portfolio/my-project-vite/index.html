@@ -4,6 +4,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Picks the language before the first paint. The HTML is prerendered in English, so for any
+       other language the content stays hidden until React renders it (no flash of English).
+       Keep the storage key in sync with src/language.js. -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var saved;
+      try {
+        saved = localStorage.getItem("portfolio-language");
+      } catch (e) {}
+      root.lang = (saved || navigator.language || "en").slice(0, 2).toLowerCase();
+      if (root.lang !== "en") {
+        root.classList.add("i18n-pending");
+        // Never leave the page hidden if the app fails to load
+        setTimeout(function () {
+          root.classList.remove("i18n-pending");
+        }, 3000);
+      }
+    })();
+  </script>
   <title>Sergio Barrios Portales | Portfolio</title>
   <meta name="description" content="Portfolio of Sergio Barrios Portales, DevOps Developer at AIR Institute." />
   <meta name="author" content="Sergio Barrios Portales" />
@@ -12,21 +33,44 @@
   <link rel="manifest" href="/manifest.json" />
   <link rel="canonical" href="https://sergio-bp.github.io/" />
 
-  <!-- Open Graph / social previews -->
+  <!-- Open Graph / social previews (image source: scripts/og-image.html) -->
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Sergio Barrios Portales" />
   <meta property="og:url" content="https://sergio-bp.github.io/" />
   <meta property="og:title" content="Sergio Barrios Portales | Portfolio" />
   <meta property="og:description" content="DevOps Developer at AIR Institute." />
-  <meta property="og:image" content="https://github.com/Sergio-bp.png?size=400" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="es_ES" />
+  <meta property="og:image" content="https://sergio-bp.github.io/og-image.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Sergio Barrios Portales, DevOps Developer" />
+  <meta name="twitter:card" content="summary_large_image" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Structured data: tells search engines who this site is about -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Sergio Barrios Portales",
+      "url": "https://sergio-bp.github.io/",
+      "image": "https://sergio-bp.github.io/avatar.webp",
+      "jobTitle": "DevOps Developer",
+      "worksFor": { "@type": "Organization", "name": "AIR Institute" },
+      "alumniOf": { "@type": "CollegeOrUniversity", "name": "Universidad de Salamanca" },
+      "sameAs": [
+        "https://github.com/Sergio-bp",
+        "https://www.linkedin.com/in/sergio-barrios-portales-454422289/"
+      ]
+    }
+  </script>
+
+  <!-- Self-hosted font: no request to third parties -->
+  <link rel="preload" href="/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
 </head>
 
 <body>
-  <noscript>This site requires JavaScript. / Esta web necesita JavaScript.</noscript>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
 </body>
