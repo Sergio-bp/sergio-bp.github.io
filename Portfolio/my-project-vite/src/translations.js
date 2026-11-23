@@ -9,7 +9,7 @@ export const translations = {
     en: {
         skipLink: "Skip to content",
         meta: {
-            description: "Portfolio of Sergio Barrios Portales, software developer focused on backend, DevOps and infrastructure."
+            description: "Portfolio of Sergio Barrios Portales, backend and DevOps developer at AIR Institute."
         },
         navbar: {
             title: "Sergio BP",
@@ -27,15 +27,18 @@ export const translations = {
         hero: {
             greeting: "Hello, I'm",
             name: "Sergio Barrios Portales",
-            role: "Full Stack Developer",
+            role: "Backend & DevOps Developer",
             ctaMain: "Contact",
             ctaSecondary: "See Projects",
             avatarAlt: "Profile picture of Sergio Barrios Portales"
         },
         about: {
             title: "About me",
-            p1: "I'm a developer passionate about creating innovative and functional digital solutions. With experience in full-stack web development, I specialize in building modern and scalable applications.",
-            p2: "My focus is on writing clean, efficient, and maintainable code, always seeking best practices and emerging technologies to solve complex problems elegantly."
+            paragraphs: [
+                "I'm a software developer focused on the backend: I design APIs and services that are clear, fast and easy to maintain. I care about how software behaves beyond the code, from my machine all the way to production.",
+                "That's why I spend more and more time on DevOps and infrastructure: containers with Docker, orchestration with Kubernetes, infrastructure as code with Terraform, and CI/CD pipelines that automate testing and deployment. This portfolio itself is built and published automatically with GitHub Actions.",
+                "I studied Computer Engineering in Information Systems at the University of Salamanca (Zamora campus), and I currently work at AIR Institute, where I apply all of this to real projects."
+            ]
         },
         projects: {
             title: "Featured Projects",
@@ -61,7 +64,7 @@ export const translations = {
     es: {
         skipLink: "Saltar al contenido",
         meta: {
-            description: "Portafolio de Sergio Barrios Portales, desarrollador de software centrado en backend, DevOps e infraestructura."
+            description: "Portafolio de Sergio Barrios Portales, desarrollador backend y DevOps en AIR Institute."
         },
         navbar: {
             title: "Sergio BP",
@@ -79,15 +82,18 @@ export const translations = {
         hero: {
             greeting: "Hola, soy",
             name: "Sergio Barrios Portales",
-            role: "Desarrollador Full Stack",
+            role: "Desarrollador Backend y DevOps",
             ctaMain: "Contactar",
             ctaSecondary: "Ver Proyectos",
             avatarAlt: "Foto de perfil de Sergio Barrios Portales"
         },
         about: {
             title: "Sobre mí",
-            p1: "Soy un desarrollador apasionado por crear soluciones digitales innovadoras y funcionales. Con experiencia en desarrollo web full-stack, me especializo en construir aplicaciones modernas y escalables.",
-            p2: "Mi enfoque se centra en escribir código limpio, eficiente y mantenible, buscando siempre las mejores prácticas y tecnologías emergentes para resolver problemas complejos de manera elegante."
+            paragraphs: [
+                "Soy desarrollador de software centrado en el backend: diseño APIs y servicios pensando en que sean claros, rápidos y fáciles de mantener. Me interesa entender cómo se comporta el software más allá del código, desde mi máquina hasta producción.",
+                "Por eso cada vez dedico más tiempo a DevOps e infraestructura: contenedores con Docker, orquestación con Kubernetes, infraestructura como código con Terraform y pipelines de CI/CD que automatizan pruebas y despliegues. Este mismo portfolio se compila y se publica solo con GitHub Actions.",
+                "Estudié Ingeniería Informática en Sistemas de Información en la Universidad de Salamanca (campus de Zamora) y actualmente trabajo en AIR Institute, donde aplico todo esto en proyectos reales."
+            ]
         },
         projects: {
             title: "Proyectos Destacados",

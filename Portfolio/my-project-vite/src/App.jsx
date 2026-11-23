@@ -219,8 +219,11 @@ export default function Portfolio() {
 
         <Section id="about-me" title={t.about.title} alt>
           <div className="max-w-prose space-y-6 text-lg leading-relaxed md:text-xl">
-            <p className="text-ink">{t.about.p1}</p>
-            <p>{t.about.p2}</p>
+            {t.about.paragraphs.map((text, i) => (
+              <p key={i} className={i === 0 ? "text-ink" : undefined}>
+                {text}
+              </p>
+            ))}
           </div>
         </Section>
 
