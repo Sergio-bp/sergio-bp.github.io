@@ -32,23 +32,30 @@ export function useLanguage() {
     return [language, setLanguage];
 }
 
-/** Returns the id of the section currently in view. */
+/** Returns the id of the section currently in view (the last one whose top has passed 40% of the viewport). */
 export function useActiveSection(ids) {
     const [active, setActive] = useState(ids[0]);
     const key = ids.join(",");
 
     useEffect(() => {
-        const elements = key.split(",").map((id) => document.getElementById(id)).filter(Boolean);
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) setActive(entry.target.id);
-                });
-            },
-            { rootMargin: "-45% 0px -50% 0px" }
-        );
-        elements.forEach((el) => observer.observe(el));
-        return () => observer.disconnect();
+        const sectionIds = key.split(",");
+        const update = () => {
+            const line = window.innerHeight * 0.4;
+            const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+            let current = sectionIds[0];
+            for (const id of sectionIds) {
+                const el = document.getElementById(id);
+                if (el && el.getBoundingClientRect().top <= line) current = id;
+            }
+            setActive(atBottom ? sectionIds[sectionIds.length - 1] : current);
+        };
+        update();
+        window.addEventListener("scroll", update, { passive: true });
+        window.addEventListener("resize", update);
+        return () => {
+            window.removeEventListener("scroll", update);
+            window.removeEventListener("resize", update);
+        };
     }, [key]);
 
     return active;
