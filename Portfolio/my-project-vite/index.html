@@ -4,6 +4,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Picks the language before the first paint. The HTML is prerendered in English, so for any
+       other language the content stays hidden until React renders it (no flash of English).
+       Keep the storage key in sync with src/language.js. -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var saved;
+      try {
+        saved = localStorage.getItem("portfolio-language");
+      } catch (e) {}
+      root.lang = (saved || navigator.language || "en").slice(0, 2).toLowerCase();
+      if (root.lang !== "en") {
+        root.classList.add("i18n-pending");
+        // Never leave the page hidden if the app fails to load
+        setTimeout(function () {
+          root.classList.remove("i18n-pending");
+        }, 3000);
+      }
+    })();
+  </script>
   <title>Sergio Barrios Portales | Portfolio</title>
   <meta name="description" content="Portfolio of Sergio Barrios Portales, DevOps Developer at AIR Institute." />
   <meta name="author" content="Sergio Barrios Portales" />
@@ -49,7 +70,6 @@
 </head>
 
 <body>
-  <noscript>This site requires JavaScript. / Esta web necesita JavaScript.</noscript>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
 </body>

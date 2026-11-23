@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
-import { translations, LANGUAGES } from "./translations";
+import { translations, LANGUAGES, DEFAULT_LANGUAGE } from "./translations";
 import { skills, socials, projects, GITHUB_URL, AVATAR_URL } from "./data";
 import { useActiveSection, useLanguage, useScrolled } from "./hooks";
 
@@ -111,6 +111,10 @@ function Navbar({ t, language, setLanguage }) {
 
 function Avatar({ alt }) {
   const [failed, setFailed] = useState(false);
+  // In the prerendered HTML the image can fail before React attaches onError.
+  const detectEarlyError = useCallback((img) => {
+    if (img?.complete && img.naturalWidth === 0) setFailed(true);
+  }, []);
 
   if (failed) {
     return (
@@ -122,6 +126,7 @@ function Avatar({ alt }) {
 
   return (
     <img
+      ref={detectEarlyError}
       src={AVATAR_URL}
       alt={alt}
       width="80"
@@ -169,8 +174,8 @@ function ProjectCard({ project, t, language }) {
   );
 }
 
-export default function Portfolio() {
-  const [language, setLanguage] = useLanguage();
+export default function Portfolio({ initialLanguage = DEFAULT_LANGUAGE }) {
+  const [language, setLanguage] = useLanguage(initialLanguage);
   const t = translations[language];
 
   return (
@@ -296,7 +301,7 @@ export default function Portfolio() {
       <footer className="border-t border-line px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl text-sm text-muted">
           <p>
-            &copy; {new Date().getFullYear()} {t.footer.rights}
+            &copy; <span suppressHydrationWarning>{new Date().getFullYear()}</span> {t.footer.rights}
           </p>
         </div>
       </footer>

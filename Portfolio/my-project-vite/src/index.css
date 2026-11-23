@@ -39,6 +39,12 @@ body {
   font-feature-settings: "ss01", "cv11";
 }
 
+/* Set by the boot script in index.html when the visitor's language is not the one the HTML was
+   prerendered in: keeps the page hidden until React renders it in the right language. */
+.i18n-pending #root {
+  visibility: hidden;
+}
+
 ::selection {
   @apply bg-ink text-page;
 }
