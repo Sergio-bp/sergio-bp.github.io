@@ -126,7 +126,7 @@ function Avatar({ alt }) {
       alt={alt}
       width="80"
       height="80"
-      className="h-20 w-20 rounded-full border border-line object-cover grayscale"
+      className="h-20 w-20 rounded-full border border-line object-cover"
       onError={() => setFailed(true)}
     />
   );
